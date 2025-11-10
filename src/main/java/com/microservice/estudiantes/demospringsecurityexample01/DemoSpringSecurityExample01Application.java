@@ -3,6 +3,7 @@ package com.microservice.estudiantes.demospringsecurityexample01;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
 public class DemoSpringSecurityExample01Application {
 
