@@ -71,6 +71,7 @@ STATELESS = nunca crea una sesion y si existe una la ignora.
     /*
     hace un seguimiento de los datos que del usuario autenticado en la sesion
      */
+    @Bean
     public SessionRegistry sessionManagementConfigurer() {
         return new SessionRegistryImpl();
     }
@@ -78,7 +79,7 @@ STATELESS = nunca crea una sesion y si existe una la ignora.
     public AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
             log.warn("Redirigiendo al inicio...");
-            response.sendRedirect("/customers/api/v1/inicio");
+            response.sendRedirect("/customers/api/v1/detalles-session");
         };
     }
 }
