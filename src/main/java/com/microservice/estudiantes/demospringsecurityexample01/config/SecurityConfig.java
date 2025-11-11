@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -37,6 +40,10 @@ public class SecurityConfig {
      */
 /*
 successHandler => nos rediregir cuando nos logueamos correctamente
+ALWAYS = crea una sesion siempre y cuando no exista ninguna.
+IF_REQUIRED = crea una sesion si necesario
+NEVER = nunca crea una sesion, pero si existe una la utiliza.
+STATELESS = nunca crea una sesion y si existe una la ignora.
  */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -48,7 +55,24 @@ successHandler => nos rediregir cuando nos logueamos correctamente
                     httpSecurityFormLoginConfigurer.successHandler(successHandler())
                             .permitAll();
                 })
+                .sessionManagement(sessionManagementConfigurer -> {
+                    sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                            .invalidSessionUrl("/login")
+                            .maximumSessions(1)
+                            .expiredUrl("/login")
+                            .sessionRegistry(sessionManagementConfigurer());
+                }).sessionManagement(sessionManagementConfigurer -> {
+                    sessionManagementConfigurer.
+                            sessionFixation().migrateSession();
+                })
                 .build();
+    }
+
+    /*
+    hace un seguimiento de los datos que del usuario autenticado en la sesion
+     */
+    public SessionRegistry sessionManagementConfigurer() {
+        return new SessionRegistryImpl();
     }
 
     public AuthenticationSuccessHandler successHandler() {
