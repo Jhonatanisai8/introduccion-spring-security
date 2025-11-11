@@ -25,5 +25,11 @@ public class CustomerController {
         return "Bienvenido al API de Clientes sin Seguridad Spring!";
     }
 
+    @RequestMapping(value = "/inicio", method = RequestMethod.GET)
+    public String index() {
+        logger.warning("Se accedió al endpoint no seguro /inicio");
+        return "<h1>Bienvenido</h1>";
+    }
+
 
 }
