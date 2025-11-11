@@ -15,7 +15,8 @@ import java.util.logging.Logger;
 public class SecurityConfig {
 
     private static final Logger logger = Logger.getLogger(SecurityConfig.class.getName());
-    
+    /*
+    CONFIGURACION N°1
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         logger.warning("Security Filter Chain....");
@@ -25,6 +26,17 @@ public class SecurityConfig {
                     authorizationManagerRequestMatcherRegistry
                             .requestMatchers("customers/api/v1/welcome-not-secured")
                             .permitAll()
+                            .anyRequest().authenticated();
+                }).formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+                .build();
+    }
+     */
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
+                    authorizationManagerRequestMatcherRegistry.requestMatchers("customers/api/v1/welcome-not-secured").permitAll()
                             .anyRequest().authenticated();
                 }).formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .build();
