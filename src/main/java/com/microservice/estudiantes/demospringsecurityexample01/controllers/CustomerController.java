@@ -15,7 +15,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome() {
-        logger.info("Se accedió al endpoint seguro /welcome");
+        logger.warning("Se accedió al endpoint seguro /welcome");
         return "Bienvenido al API de Clientes con Seguridad Spring!";
     }
 
